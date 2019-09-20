@@ -52,7 +52,7 @@ public class AccountController {
   }
   
   // se puede dejar con un PACH 
-  @PutMapping(value="/accounts")
+  @PatchMapping(value="/accounts")
   @ResponseBody
   public Object updateStatus(@RequestBody Account account){
       Account res = accountService.updateStatus(account);
