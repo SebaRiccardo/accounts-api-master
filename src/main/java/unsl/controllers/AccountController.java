@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unsl.entities.ResponseError;
-import unsl.entities.Account.Status;
 import unsl.entities.Account;
 import unsl.services.AccountServices;
 
