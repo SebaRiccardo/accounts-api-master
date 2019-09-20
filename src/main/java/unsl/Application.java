@@ -6,15 +6,15 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 
 @SpringBootApplication
-public class AccountsApiApplication extends SpringBootServletInitializer {
+public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AccountsApiApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(AccountsApiApplication.class);
+		return application.sources(Application.class);
 	}
 	
 }
