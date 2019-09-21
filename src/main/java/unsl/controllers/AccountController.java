@@ -46,7 +46,7 @@ public class AccountController {
     return accountService.saveAccount(account);
   }
   
-  // se puede dejar con un PACH 
+  // se puede dejar con un put 
   @PatchMapping(value="/accounts")
   @ResponseBody
   public Object updateStatus(@RequestBody Account account){
