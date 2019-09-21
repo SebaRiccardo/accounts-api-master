@@ -17,8 +17,7 @@ import javax.persistence.*;
             ACTIVA,
             BAJA
         }
-       
-        
+         
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private long id;
