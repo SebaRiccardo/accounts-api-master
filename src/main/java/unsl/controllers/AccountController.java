@@ -33,12 +33,10 @@ public class AccountController {
 
   @GetMapping(value = "/accounts/search")
   @ResponseBody
-  public Object searchAccount(@RequestParam("holder")long holder){
-    Account account = accountService.findByHolder(holder);
-    if ( account == null) {
-     return new ResponseEntity(new ResponseError(404, String.format("Account with holder: %d not found", holder)), HttpStatus.NOT_FOUND);
-   }
-    return account;
+  public List<Account> searchAccount(@RequestParam("holder")long holder){
+    List<Account> accounts = accountService.findByHolder(holder);
+  
+    return accounts;
    } 
 
   @PostMapping(value = "/accounts")

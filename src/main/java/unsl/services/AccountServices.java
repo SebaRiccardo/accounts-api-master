@@ -22,7 +22,7 @@ public class AccountServices {
        return accountRepository.findById(id).orElse(null);
     }
     
-    public Account findByHolder(Long holder){
+    public List<Account> findByHolder(Long holder){
         return accountRepository.findByHolder(holder);
     }
 
