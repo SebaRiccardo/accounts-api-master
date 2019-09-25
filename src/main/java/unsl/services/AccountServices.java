@@ -1,5 +1,6 @@
 package unsl.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class AccountServices {
     public Account saveAccount(Account account){
        
        account.setStatus(Status.ACTIVA); 
-       account.setAccount_balance(100);
+       
        return accountRepository.save(account); 
     }
     
@@ -43,7 +44,10 @@ public class AccountServices {
         return accountRepository.save(account);
     }
 
-    public Account updateBalance(Account updatedAccount){              
-            return accountRepository.save(updatedAccount);   
+    public Account updateBalance(long id,BigDecimal new_amount_balance){              
+        Account account= accountRepository.findById(id).orElse(null);
+        account.setAccount_balance(new_amount_balance);
+
+        return accountRepository.save(account);   
     }
 }

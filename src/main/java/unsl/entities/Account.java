@@ -32,8 +32,8 @@ import javax.persistence.*;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private long id;
-     
-         private BigDecimal account_balance;
+
+        private BigDecimal account_balance;
      
         @JsonProperty("holder")
         private long holder;

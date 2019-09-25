@@ -1,4 +1,6 @@
 package unsl.controllers;
+
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -6,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unsl.entities.ResponseError;
 import unsl.entities.Account;
+import unsl.entities.Amount;
 import unsl.services.AccountServices;
 
 @RestController
@@ -50,22 +53,22 @@ public class AccountController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ResponseBody
   public Object updateStatus(@PathVariable("id")long accountId){
+      
       Account res = accountService.updateStatus(accountId);
+      
       if ( res == null) {
         return new ResponseEntity(new ResponseError(404, String.format("Account with ID %d not found", res.getId())), HttpStatus.NOT_FOUND);
-     }
+      }
+
     return res;
   }
 
-  @PutMapping(value = "/accounts")
+  @PutMapping(value = "/accounts/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Object updateBalance(@RequestBody Account account){
-    Account res = accountService.getAccount(account.getId());
-    if(res == null){ 
-      return new ResponseEntity(new ResponseError(404, String.format("Account with ID %d not found", res.getId())), HttpStatus.NOT_FOUND);
-    } 
-    return accountService.updateBalance(account);
+  public Object updateBalance(@PathVariable("id")long accountId,@RequestBody Amount amount){
+    
+    return accountService.updateBalance(accountId,amount.getAmount());
   }
 
 }
