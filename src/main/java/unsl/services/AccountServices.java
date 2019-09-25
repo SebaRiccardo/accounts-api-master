@@ -30,7 +30,8 @@ public class AccountServices {
     public Account saveAccount(Account account){
        
        account.setStatus(Status.ACTIVA); 
-       
+       account.setAccount_balance(new BigDecimal(0.0));
+
        return accountRepository.save(account); 
     }
     
