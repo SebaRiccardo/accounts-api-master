@@ -41,4 +41,8 @@ public class AccountServices {
         }
         return accountRepository.save(account);
     }
+
+    public Account updateBalance(Account updatedAccount){              
+            return accountRepository.save(updatedAccount);   
+    }
 }
