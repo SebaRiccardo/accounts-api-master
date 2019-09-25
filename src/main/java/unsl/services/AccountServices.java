@@ -29,6 +29,7 @@ public class AccountServices {
     public Account saveAccount(Account account){
        
        account.setStatus(Status.ACTIVA); 
+       account.setAccount_balance(100);
        return accountRepository.save(account); 
     }
     

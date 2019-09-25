@@ -61,10 +61,9 @@ public class AccountController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Object updateBalance(@RequestBody Account account){
-
     Account res = accountService.getAccount(account.getId());
     if(res == null){ 
-      return new ResponseEntity(new ResponseError(404, String.format("Account with ID %d not found", account.getId())), HttpStatus.NOT_FOUND);
+      return new ResponseEntity(new ResponseError(404, String.format("Account with ID %d not found", res.getId())), HttpStatus.NOT_FOUND);
     } 
     return accountService.updateBalance(account);
   }
