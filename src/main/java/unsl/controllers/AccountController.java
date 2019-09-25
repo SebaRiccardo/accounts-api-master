@@ -26,7 +26,7 @@ public class AccountController {
   public Object getAccount(@PathVariable("id")long accountId){
         Account account = accountService.getAccount(accountId);
         if ( account == null) {
-         return new ResponseEntity(new ResponseError(404, String.format("Account %d not found", accountId)), HttpStatus.NOT_FOUND);
+         return new ResponseEntity(new ResponseError(404, String.format("Account with ID %d not found", accountId)), HttpStatus.NOT_FOUND);
       }
      return account;
   }
@@ -46,14 +46,18 @@ public class AccountController {
     return accountService.saveAccount(account);
   }
   
-  // se puede dejar con un put 
-  @PatchMapping(value="/accounts")
+  @PutMapping(value="/accounts/{id}")
   @ResponseBody
-  public Object updateStatus(@RequestBody Account account){
-      Account res = accountService.updateStatus(account);
+  public Object updateStatus(@PathVariable("id")long accountId){
+      Account res = accountService.updateStatus(accountId);
       if ( res == null) {
         return new ResponseEntity(new ResponseError(404, String.format("Account with ID %d not found", account.getId())), HttpStatus.NOT_FOUND);
      }
     return res;
   }
+  @PutMapping(value = "/accounts/{id}")
+  @ResponseBody
+   public
+
+
 }

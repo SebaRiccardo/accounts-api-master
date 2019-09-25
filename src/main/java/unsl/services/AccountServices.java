@@ -32,9 +32,9 @@ public class AccountServices {
        return accountRepository.save(account); 
     }
     
-    public Account updateStatus(Account updatedAccount){
-        Account account = accountRepository.findById(updatedAccount.getId()).orElse(null);
-       if(account.getStatus()== Status.ACTIVA){
+    public Account updateStatus(long id){
+       Account account = accountRepository.findById(id).orElse(null);
+       if(account.getStatus() == Status.ACTIVA){
            account.setStatus(Account.Status.BAJA);
         }else{
            account.setStatus(Account.Status.ACTIVA);
