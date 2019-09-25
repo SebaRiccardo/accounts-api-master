@@ -49,7 +49,7 @@ public class AccountController {
     return accountService.saveAccount(account);
   }
   
-  @PutMapping(value="/accounts")
+  @PatchMapping(value="/accounts/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ResponseBody
   public Object updateStatus(@PathVariable("id")long accountId){
@@ -64,7 +64,7 @@ public class AccountController {
   }
 
   @PutMapping(value = "/accounts/{id}")
-  @ResponseStatus(HttpStatus.OK)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @ResponseBody
   public Object updateBalance(@PathVariable("id")long accountId,@RequestBody Amount amount){
     return accountService.updateBalance(accountId,amount.getAmount());
