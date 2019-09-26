@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unsl.entities.Account;
+import unsl.entities.UserAccounts;
 import unsl.entities.Account.Status;
 import unsl.repository.AccountRepository;
 
@@ -23,7 +24,7 @@ public class AccountServices {
        return accountRepository.findById(id).orElse(null);
     }
     
-    public List<Account> findByHolder(Long holder){
+    public UserAccounts findByHolder(Long holder){
         return accountRepository.findByHolder(holder);
     }
 

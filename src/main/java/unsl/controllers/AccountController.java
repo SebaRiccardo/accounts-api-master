@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unsl.entities.ResponseError;
+import unsl.entities.UserAccounts;
 import unsl.entities.Account;
 import unsl.entities.Amount;
 import unsl.services.AccountServices;
@@ -35,10 +36,10 @@ public class AccountController {
   }
 
   @GetMapping(value = "/accounts/search")
+  @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public List<Account> searchAccount(@RequestParam("holder")long holder){
-    List<Account> accounts = accountService.findByHolder(holder);
-  
+  public UserAccounts searchAccount(@RequestParam("holder")long holder){
+    UserAccounts accounts = accountService.findByHolder(holder);
     return accounts;
    } 
 
@@ -62,7 +63,6 @@ public class AccountController {
 
     return res;
   }
-
   @PutMapping(value = "/accounts/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ResponseBody
