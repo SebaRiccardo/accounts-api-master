@@ -25,14 +25,15 @@ public class AccountServices {
     }
     
     public UserAccounts findByHolder(Long holder){
-        return accountRepository.findByHolder(holder);
+        List<Account> accounts = accountRepository.findByHolder(holder);
+       
+       
+        return new UserAccounts(accounts);
     }
 
-    public Account saveAccount(Account account){
-       
-       account.setStatus(Status.ACTIVA); 
-       account.setAccount_balance(new BigDecimal(100.0));
-
+    public Account saveAccount(Account account){  
+       account.setStatus(Status.ACTIVA);
+       account.setAccount_balance(new BigDecimal(0)); 
        return accountRepository.save(account); 
     }
     
@@ -51,5 +52,13 @@ public class AccountServices {
         account.setAccount_balance(new_amount_balance);
 
         return accountRepository.save(account);   
+    }
+    public long getHolderId(long id){
+        Account  account = accountRepository.findById(id).orElse(null);
+        long holder_id=-1;
+        if(account !=null){
+               holder_id=account.getHolder();
+        }
+        return holder_id;
     }
 }

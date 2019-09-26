@@ -9,6 +9,10 @@ public class UserAccounts {
     public UserAccounts() {
 
     }
+    public UserAccounts(List<Account> list){
+
+        userAccounts= list;
+    }
 
     public List<Account> getUserAccounts() {
         return userAccounts;
