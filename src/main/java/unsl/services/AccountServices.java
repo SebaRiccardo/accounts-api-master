@@ -26,14 +26,12 @@ public class AccountServices {
     
     public UserAccounts findByHolder(Long holder){
         List<Account> accounts = accountRepository.findByHolder(holder);
-       
-       
         return new UserAccounts(accounts);
     }
 
     public Account saveAccount(Account account){  
        account.setStatus(Status.ACTIVA);
-       account.setAccount_balance(new BigDecimal(0)); 
+       
        return accountRepository.save(account); 
     }
     

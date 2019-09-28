@@ -79,7 +79,37 @@ public class AccountController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public Object createAccount(@RequestBody Account account) {
-    return accountService.saveAccount(account);
+   /** funcion ppara acreditarle 500 (con el dolar a 58 no es nada) si la cuenta es la primera cuenta en pesos argentinos */
+      UserAccounts current_accounts;
+      boolean flag_already_has=false; 
+      current_accounts = accountService.findByHolder(account.getHolder());
+
+      /** se fija si tiene alguna cuenta */
+      if(current_accounts.getUserAccounts().size()>0){    
+        /** si tiene cuentas se fija si alguna es el pesos argentinos */   
+          for(Account a: current_accounts.getUserAccounts()){
+            if((a.getCurrency().compareTo(Account.Currency.PESO_AR))==0){
+              flag_already_has =true;
+            }
+          } /** Si sino tiene cuenta en pesos y la cuenta que quiere guardar en es pesos le da 500 */
+          if(!flag_already_has && account.getCurrency()== Account.Currency.PESO_AR){
+           account.setAccount_balance(new BigDecimal(500));
+           return accountService.saveAccount(account);
+          }else{
+           account.setAccount_balance(new BigDecimal(0));
+           return accountService.saveAccount(account);
+          }
+      }else{
+        /** Si no tiene ninguna cuenta y abre una en pesos le da 500 */
+        if(account.getCurrency().compareTo(Account.Currency.PESO_AR)==0){
+          System.out.println(account.getCurrency()+ " " +account.getCurrency().compareTo(Account.Currency.PESO_AR));
+          account.setAccount_balance(new BigDecimal(500));
+          return accountService.saveAccount(account);
+        }else{
+          account.setAccount_balance(new BigDecimal(0));
+          return accountService.saveAccount(account);
+        }
+      }
   }
   
   @PatchMapping(value="/accounts/{id}")
