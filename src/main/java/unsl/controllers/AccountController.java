@@ -86,15 +86,18 @@ public class AccountController {
 
       /** se fija si tiene alguna cuenta */
       if(current_accounts.getUserAccounts().size()>0){    
-        /** si tiene cuentas se fija si alguna es el pesos argentinos */   
+          /** cantidad maxima de cuentas 3 */
+          if(current_accounts.getUserAccounts().size()==3){
+            return new ResponseEntity(new ResponseError(404,String.format("you have the maximum (%d) amount of accounts",current_accounts.getUserAccounts().size())), HttpStatus.BAD_REQUEST);
+          }
+         
           for(Account a: current_accounts.getUserAccounts()){
-           
-            if((a.getCurrency().compareTo(Account.Currency.PESO_AR))==0){
-              flag_already_has =true;
+            if((a.getCurrency().compareTo(account.getCurrency()))==0){
+              return new ResponseEntity(new ResponseError(404,"Can't create another account of type "+account.getCurrency() +", already exist one."), HttpStatus.BAD_REQUEST);   
             }
 
           } /** Si sino tiene cuenta en pesos y la cuenta que quiere guardar en es pesos le da 500 */
-          if(!flag_already_has && account.getCurrency()== Account.Currency.PESO_AR){
+          if(account.getCurrency().compareTo(Account.Currency.PESO_AR)==0){
            account.setAccount_balance(new BigDecimal(500));
            return accountService.saveAccount(account);
           }else{
