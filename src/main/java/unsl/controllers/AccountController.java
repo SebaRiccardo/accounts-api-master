@@ -102,7 +102,7 @@ public class AccountController {
       }else{
         /** Si no tiene ninguna cuenta y abre una en pesos le da 500 */
         if(account.getCurrency().compareTo(Account.Currency.PESO_AR)==0){
-          System.out.println(account.getCurrency()+ " " +account.getCurrency().compareTo(Account.Currency.PESO_AR));
+          
           account.setAccount_balance(new BigDecimal(500));
           return accountService.saveAccount(account);
         }else{
@@ -126,10 +126,10 @@ public class AccountController {
   @PutMapping(value = "/accounts/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ResponseBody
-  public Object updateBalance(@PathVariable("id")long accountId,@RequestBody Amount amount){
-    
+  public Object updateBalance(@PathVariable("id")long accountId,@RequestBody Amount amount){  
+    if(amount.getAmount()==null){
+      return new ResponseEntity(new ResponseError(404, String.format("No amount not entered")), HttpStatus.BAD_REQUEST);
+    }
     return accountService.updateBalance(accountId,amount.getAmount());
-  
   }
-
 }
