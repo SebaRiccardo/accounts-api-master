@@ -88,9 +88,11 @@ public class AccountController {
       if(current_accounts.getUserAccounts().size()>0){    
         /** si tiene cuentas se fija si alguna es el pesos argentinos */   
           for(Account a: current_accounts.getUserAccounts()){
+           
             if((a.getCurrency().compareTo(Account.Currency.PESO_AR))==0){
               flag_already_has =true;
             }
+
           } /** Si sino tiene cuenta en pesos y la cuenta que quiere guardar en es pesos le da 500 */
           if(!flag_already_has && account.getCurrency()== Account.Currency.PESO_AR){
            account.setAccount_balance(new BigDecimal(500));
