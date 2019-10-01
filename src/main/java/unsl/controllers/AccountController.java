@@ -44,7 +44,7 @@ public class AccountController {
     return account;
   }
 
-  @GetMapping(value = "accounts/{id}/users")
+  @GetMapping(value = "/accounts/{id}/users")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
   public Object getUserData(@PathVariable("id") long accountId) {
