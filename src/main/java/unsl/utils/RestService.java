@@ -29,10 +29,6 @@ public class RestService {
         return user;
     }
     
-    
-
-    
-
     private String buildMessageError(Exception e) {
         String msg = e.getMessage();
         if (e instanceof HttpClientErrorException) {
