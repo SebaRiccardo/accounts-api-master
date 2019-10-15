@@ -3,16 +3,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 
 
-@Entity
-@Table(name = "users", uniqueConstraints={@UniqueConstraint(columnNames = {"dni"})})
+
 public class User {
 	public static enum Status {
         ACTIVO,
         BAJA
 	}
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	private long dni;
