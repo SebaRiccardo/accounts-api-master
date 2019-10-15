@@ -8,14 +8,10 @@ import javax.persistence.*;
 
 
 @Entity 
-@Table (name= "accounts",
-  uniqueConstraints={
-     @UniqueConstraint(columnNames={"id"})})
-
+@Table (name= "accounts", uniqueConstraints={@UniqueConstraint(columnNames={"id"})})
   public class Account {
 
         public Account(){
-
 
         }
         public static enum Currency {
