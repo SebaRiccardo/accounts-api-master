@@ -28,10 +28,11 @@ import javax.persistence.*;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private long id;
-
+        
         private BigDecimal account_balance;
      
         @JsonProperty("holder")
+        @Column(name="holder_id")
         private long holder;
      
         @Enumerated(EnumType.STRING)
