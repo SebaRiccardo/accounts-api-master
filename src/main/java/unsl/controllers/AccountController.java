@@ -133,7 +133,7 @@ public class AccountController {
   @ResponseBody
   public Object updateBalance(@PathVariable("id")long accountId,@RequestBody Amount amount){  
     if(amount.getAmount()==null){
-      return new ResponseEntity(new ResponseError(404, String.format("No amount not entered")), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity(new ResponseError(404, String.format("The amount is null")), HttpStatus.BAD_REQUEST);
     }
     return accountService.updateBalance(accountId,amount.getAmount());
   }
