@@ -79,7 +79,7 @@ public class AccountController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public Object createAccount(@RequestBody Account account) {
-   /** funcion ppara acreditarle 500 (con el dolar a 58 no es nada) si la cuenta es la primera cuenta en pesos argentinos */
+   /** funcion ppara acreditarle 500  si la cuenta es la primera cuenta en pesos argentinos */
       UserAccounts current_accounts;
       boolean flag_already_has=false; 
       current_accounts = accountService.findByHolder(account.getHolder());

@@ -1,7 +1,7 @@
 package unsl.repository;
 
 import unsl.entities.Account;
-import unsl.entities.UserAccounts;
+
 
 import org.springframework.data.repository.query.Param;
 
