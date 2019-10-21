@@ -1,5 +1,6 @@
 package unsl.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -8,7 +9,9 @@ import unsl.entities.*;
 
 @Service
 public class RestService {
-    
+
+    @Autowired
+    private RestTemplate restTemplate;
     /*
      * @param url
      * @return
@@ -16,8 +19,6 @@ public class RestService {
      * */
 
     public User getUser(String url) throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
-
         User user;   
 
         try {
@@ -25,7 +26,6 @@ public class RestService {
         }  catch (Exception e){
             throw new Exception( buildMessageError(e));
         }
-
         return user;
     }
     

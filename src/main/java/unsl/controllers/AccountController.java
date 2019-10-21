@@ -57,7 +57,7 @@ public class AccountController {
     }
     User user;
     try {
-      user = restService.getUser("http://localhost:8888/users/" + holder_id);
+      user = restService.getUser("http://users-api/users/" + holder_id);
     } catch (Exception e) {
        return new ResponseEntity(new ResponseError(404, String.format("Can't request user with id %d",holder_id)), HttpStatus.NOT_FOUND);
     }
