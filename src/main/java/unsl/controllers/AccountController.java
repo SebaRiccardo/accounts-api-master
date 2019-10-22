@@ -74,8 +74,6 @@ public class AccountController {
      return user;
    }
 
-
-
   @GetMapping(value = "/accounts/search")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
