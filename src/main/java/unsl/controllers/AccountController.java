@@ -48,7 +48,7 @@ public class AccountController {
     Account account = accountService.getAccount(accountId);
 
     if (account == null) {
-      return new ResponseEntity(new ResponseError(404, String.format("Account with ID %d not found", accountId)),
+      return new ResponseEntity(new ResponseError(404, String.format("Account with id: %d not found", accountId)),
           HttpStatus.NOT_FOUND);
     }
 
@@ -62,15 +62,13 @@ public class AccountController {
 
     long holder_id = accountService.getHolderId(accountId);
     if (holder_id == -1) {
-
-      return new ResponseEntity(new ResponseError(404, String.format("Fatal error account with no holder")),
-          HttpStatus.NOT_FOUND);
+      return new ResponseEntity(new ResponseError(404, String.format("The account with id: %d does not exist",accountId)),HttpStatus.NOT_FOUND);
     }
     User user;
     try {
-      user = restService.getUser("http://18.206.252.208:8885/users/" + holder_id);
+       user = restService.getUser("http://18.206.252.208:8885/users/" + holder_id);
     } catch (Exception e) {
-       return new ResponseEntity(new ResponseError(404, String.format("Can't request user with id %d",holder_id)), HttpStatus.NOT_FOUND);
+       return new ResponseEntity(new ResponseError(404, String.format("Holder with id: %d not found",holder_id)), HttpStatus.NOT_FOUND);
     }
 
      return user;
@@ -81,9 +79,13 @@ public class AccountController {
   @GetMapping(value = "/accounts/search")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public UserAccounts searchAccount(@RequestParam("holder")long holder){
+  public Object searchAccount(@RequestParam("holder")long holder){
     UserAccounts accounts = accountService.findByHolder(holder);
-    return accounts;
+    if (accounts.getUserAccounts().isEmpty()){
+      return new ResponseEntity(new ResponseError(404,String.format("The holder with id: %d has no accounts",holder)), HttpStatus.NOT_FOUND);
+    }else{
+      return accounts;
+    }
    } 
 
   @PostMapping(value = "/accounts")
@@ -99,12 +101,12 @@ public class AccountController {
       if(current_accounts.getUserAccounts().size()>0){    
           /** cantidad maxima de cuentas 3 */
           if(current_accounts.getUserAccounts().size()==3){
-            return new ResponseEntity(new ResponseError(404,String.format("you have the maximum (%d) amount of accounts",current_accounts.getUserAccounts().size())), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ResponseError(404,String.format("You have the maximum (%d) amount of accounts",current_accounts.getUserAccounts().size())), HttpStatus.BAD_REQUEST);
           }
          
           for(Account a: current_accounts.getUserAccounts()){
             if((a.getCurrency().compareTo(account.getCurrency()))==0){
-              return new ResponseEntity(new ResponseError(404,"you can't create another account of type "+account.getCurrency() +", already exist one."), HttpStatus.BAD_REQUEST);   
+              return new ResponseEntity(new ResponseError(404,"You can't open another account of type "+account.getCurrency() +", already exist one."), HttpStatus.BAD_REQUEST);   
             }
 
           } /** Si sino tiene cuenta en pesos y la cuenta que quiere guardar en es pesos le da 500 */
@@ -132,11 +134,19 @@ public class AccountController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ResponseBody
   public Object updateStatus(@PathVariable("id")long accountId,@RequestBody Account account){
-      Account res = accountService.updateStatus(accountId);
-      if ( res == null) {
-        return new ResponseEntity(new ResponseError(404, String.format("Account with ID %d not found", res.getId())), HttpStatus.NOT_FOUND);
-      }
-    return res;
+       // busca la cuenta para ver si existe
+      Account currentAccount= accountService.getAccount(accountId);
+      if (currentAccount == null) {
+           return new ResponseEntity(new ResponseError(404, String.format("Account with id: %d not found", currentAccount.getId())), HttpStatus.NOT_FOUND);
+      }else{
+        // se fija si el saldo es cero para poder darla de baja
+       if(currentAccount.getAccount_balance().compareTo(new BigDecimal(0.00)) == 0 ){ 
+           currentAccount = accountService.updateStatus(currentAccount,account.getStatus());
+        }else{
+          return new ResponseEntity(new ResponseError(400, String.format("The account balance MUST be 0 to set BAJA status")), HttpStatus.BAD_REQUEST);
+        }
+       return currentAccount;
+     }
   }
 
   @PutMapping(value = "/accounts/{id}")
