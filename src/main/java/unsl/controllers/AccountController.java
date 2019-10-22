@@ -2,15 +2,26 @@ package unsl.controllers;
 
 import java.math.BigDecimal;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import unsl.entities.ResponseError;
-import unsl.entities.UserAccounts;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import unsl.entities.Account;
 import unsl.entities.Amount;
+import unsl.entities.ResponseError;
 import unsl.entities.User;
+import unsl.entities.UserAccounts;
 import unsl.services.AccountServices;
 import unsl.utils.RestService;
 
@@ -57,7 +68,7 @@ public class AccountController {
     }
     User user;
     try {
-      user = restService.getUser("http://users-api/users/" + holder_id);
+      user = restService.getUser("http://18.206.252.208:8885/users/" + holder_id);
     } catch (Exception e) {
        return new ResponseEntity(new ResponseError(404, String.format("Can't request user with id %d",holder_id)), HttpStatus.NOT_FOUND);
     }
@@ -93,7 +104,7 @@ public class AccountController {
          
           for(Account a: current_accounts.getUserAccounts()){
             if((a.getCurrency().compareTo(account.getCurrency()))==0){
-              return new ResponseEntity(new ResponseError(404,"Can't create another account of type "+account.getCurrency() +", already exist one."), HttpStatus.BAD_REQUEST);   
+              return new ResponseEntity(new ResponseError(404,"you can't create another account of type "+account.getCurrency() +", already exist one."), HttpStatus.BAD_REQUEST);   
             }
 
           } /** Si sino tiene cuenta en pesos y la cuenta que quiere guardar en es pesos le da 500 */
