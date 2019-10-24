@@ -65,8 +65,8 @@ public class AccountController {
       return new ResponseEntity(new ResponseError(404, String.format("The account with id: %d does not exist",accountId)),HttpStatus.NOT_FOUND);
     }
     User user;
-    try {
-       user = restService.getUser("http://18.206.252.208:8885/users/" + holder_id);
+    try {                           
+       user = restService.getUser("http://18.206.252.208:8888/users/" + holder_id);
     } catch (Exception e) {
        return new ResponseEntity(new ResponseError(404, String.format("Holder with id: %d not found",holder_id)), HttpStatus.NOT_FOUND);
     }

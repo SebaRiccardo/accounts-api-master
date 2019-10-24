@@ -6,7 +6,7 @@
     <groupId>org.springframework</groupId>
     <artifactId>accounts-api-master</artifactId>
     <name>accounts</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>war</packaging>
    
     <parent>
@@ -20,13 +20,13 @@
        <!-- <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version> -->
     </properties>
   <dependencies>
+    
     <!--
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
     -->
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
