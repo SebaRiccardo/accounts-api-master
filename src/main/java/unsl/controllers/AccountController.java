@@ -74,7 +74,7 @@ public class AccountController {
      return user;
    }
 
-  @GetMapping(value = "/asccount/search")
+  @GetMapping(value = "/account/search")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Object searchAccount(@RequestParam("holder")long holder){
