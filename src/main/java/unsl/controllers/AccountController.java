@@ -66,7 +66,7 @@ public class AccountController {
     }
     User user;
     try {                           
-       user = restService.getUser("http://18.206.252.208:8888/users/" + holder_id);
+       user = restService.getUser("http://54.166.25.16:8888/users/" + holder_id);
     } catch (Exception e) {
        return new ResponseEntity(new ResponseError(404, String.format("Holder with id: %d not found",holder_id)), HttpStatus.NOT_FOUND);
     }
@@ -74,7 +74,7 @@ public class AccountController {
      return user;
    }
 
-  @GetMapping(value = "/accounts/search")
+  @GetMapping(value = "/asccount/search")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Object searchAccount(@RequestParam("holder")long holder){
