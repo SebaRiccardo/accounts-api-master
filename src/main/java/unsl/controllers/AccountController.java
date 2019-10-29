@@ -77,7 +77,7 @@ public class AccountController {
   @GetMapping(value = "/accounts/search")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Object searchAccount(@RequestParam("holder")long holder){
+  public Object searchAccount(@RequestParam("holder") long holder){
     UserAccounts accounts = accountService.findByHolder(holder);
     if (accounts.getUserAccounts().isEmpty()){
       return new ResponseEntity(new ResponseError(404,String.format("The holder with id: %d has no accounts",holder)), HttpStatus.NOT_FOUND);
