@@ -27,7 +27,7 @@ import unsl.utils.RestService;
 
 @RestController
 public class AccountController {
-  private static String ipUsuario ="localhost";
+  private static String ipUsuario ="users-balancer-1365048598.us-east-1.elb.amazonaws.com";
 
   @Autowired
   AccountServices accountService;
@@ -67,7 +67,7 @@ public class AccountController {
     }
     User user;
     try {                           
-       user = restService.getUser("http://"+ipUsuario+":8888/users/" + holder_id);
+       user = restService.getUser("http://"+ipUsuario+"/users/" + holder_id);
     } catch (Exception e) {
        return new ResponseEntity(new ResponseError(404, String.format("Holder with id: %d not found",holder_id)), HttpStatus.NOT_FOUND);
     }
