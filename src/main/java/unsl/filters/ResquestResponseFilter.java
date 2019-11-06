@@ -1,3 +1,4 @@
+/*
 package unsl.filters;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class ResquestResponseFilter implements Filter {
     int failRatio = 50;
     int minResponseTime = 100;
     int maxResponseTime = 1000;
-
+    
     public ResquestResponseFilter() {
     }
 
@@ -42,4 +43,6 @@ public class ResquestResponseFilter implements Filter {
 
     public void destroy() {
     }
+
 }
+*/
