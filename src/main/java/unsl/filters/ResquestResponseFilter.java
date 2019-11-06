@@ -1,4 +1,4 @@
-/*
+
 package unsl.filters;
 
 import java.io.IOException;
@@ -45,4 +45,3 @@ public class ResquestResponseFilter implements Filter {
     }
 
 }
-*/
