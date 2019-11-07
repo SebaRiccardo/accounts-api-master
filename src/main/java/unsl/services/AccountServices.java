@@ -36,16 +36,8 @@ public class AccountServices {
     }
     
     public Account updateStatus(Account account,Account.Status newStatus){
-       //Account account = accountRepository.findById(id).orElse(null);
-       
-       account.setStatus(newStatus);
-       /*
-       if(account.getStatus() == Status.ACTIVA){
-           account.setStatus(Account.Status.BAJA);
-        }else{
-           account.setStatus(Account.Status.ACTIVA);
-        }
-        */
+    
+        account.setStatus(newStatus);
         return accountRepository.save(account);
     }
 

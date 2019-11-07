@@ -34,6 +34,14 @@ public class AccountController {
 
   @Autowired
   RestService restService;
+  
+  @GetMapping(value = "/ping")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public String ping() {
+       
+        return "pong";
+    }
 
   @GetMapping(value = "/accounts")
   @ResponseBody
@@ -142,7 +150,7 @@ public class AccountController {
        if(currentAccount.getAccount_balance().compareTo(new BigDecimal(0.00)) == 0 ){ 
            currentAccount = accountService.updateStatus(currentAccount,account.getStatus());
         }else{
-          return new ResponseEntity(new ResponseError(400, String.format("The account balance MUST be 0 to set BAJA status")), HttpStatus.BAD_REQUEST);
+          return new ResponseEntity(new ResponseError(400, String.format("The account balance MUST be 0 (zero) to close the account")), HttpStatus.BAD_REQUEST);
         }
        return currentAccount;
      }
@@ -153,7 +161,7 @@ public class AccountController {
   @ResponseBody
   public Object updateBalance(@PathVariable("id")long accountId,@RequestBody Amount amount){  
     if(amount.getAmount()==null){
-      return new ResponseEntity(new ResponseError(404, String.format("The amount is null")), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity(new ResponseError(400, String.format("The amount is null")), HttpStatus.BAD_REQUEST);
     }
     return accountService.updateBalance(accountId,amount.getAmount());
   }

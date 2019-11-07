@@ -10,19 +10,19 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 
-public class Application extends SpringBootServletInitializer {
+public class ApplicationAccounts extends SpringBootServletInitializer {
 	@Bean
 	//@LoadBalanced
 	public RestTemplate getRestTemplate(){
 		return new RestTemplate();
 	}
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ApplicationAccounts.class, args);
 	}
 	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(Application.class);
+		return application.sources(ApplicationAccounts.class);
 	}
 	
 }
