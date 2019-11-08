@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(1)
 public class ResquestResponseFilter implements Filter {
-    int failRatio = 30;
+    int failRatio = 50;
     int minResponseTime = 100;
     int maxResponseTime = 1000;
     
