@@ -57,7 +57,7 @@ public class AccountController {
     Account account = accountService.getAccount(accountId);
 
     if (account == null) {
-      return new ResponseEntity(new ResponseError(404, String.format("Account with id: %d not found", accountId)),
+      return new ResponseEntity(new ResponseError(404, String.format("La cuenta con  id: %d no existe", accountId)),
           HttpStatus.NOT_FOUND);
     }
 
@@ -71,29 +71,37 @@ public class AccountController {
 
     long holder_id = accountService.getHolderId(accountId);
     if (holder_id == -1) {
-      return new ResponseEntity(new ResponseError(404, String.format("The account with id: %d does not exist",accountId)),HttpStatus.NOT_FOUND);
+      return new ResponseEntity(new ResponseError(404, String.format("La cuenta con  id: %d no existe",accountId)),HttpStatus.NOT_FOUND);
     }
     User user;
     try {                           
        user = restService.getUser("http://"+ipUsuario+"/users/" + holder_id);
     } catch (Exception e) {
-       return new ResponseEntity(new ResponseError(404, String.format("Holder with id: %d not found",holder_id)), HttpStatus.NOT_FOUND);
+       return new ResponseEntity(new ResponseError(404, String.format("El titular con id: %d no existe",holder_id)), HttpStatus.NOT_FOUND);
     }
 
      return user;
    }
+   
 
   @GetMapping(value = "/accounts/search")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Object searchAccount(@RequestParam("holder") long holder){
+  public Object searchAccount(@RequestParam("holder") long holder) throws Exception {
     UserAccounts accounts = accountService.findByHolder(holder);
-    if (accounts.getUserAccounts().isEmpty()){
-      return new ResponseEntity(new ResponseError(404,String.format("The holder with id: %d has no accounts",holder)), HttpStatus.NOT_FOUND);
-    }else{
-      return accounts;
-    }
-   } 
+    User user =  restService.getUser("http://"+ipUsuario+"/users/" + holder);
+
+      if (accounts.getUserAccounts().isEmpty() && user!=null){   
+          return new ResponseEntity(new ResponseError(404,String.format("El titular con id: %d no posee cuentas",holder)), HttpStatus.NOT_FOUND);
+      }else{
+          if(user == null){
+            return new ResponseEntity(new ResponseError(404,String.format("El titular con id: %d no existe",holder)), HttpStatus.NOT_FOUND);
+
+          }else{
+            return accounts;
+          }
+      }
+  } 
 
   @PostMapping(value = "/accounts")
   @ResponseStatus(HttpStatus.CREATED)
@@ -108,12 +116,12 @@ public class AccountController {
       if(current_accounts.getUserAccounts().size()>0){    
           /** cantidad maxima de cuentas 3 */
           if(current_accounts.getUserAccounts().size()==3){
-            return new ResponseEntity(new ResponseError(404,String.format("You have the maximum (%d) amount of accounts",current_accounts.getUserAccounts().size())), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ResponseError(404,String.format("Ya tienes la cantidad maxima (%d) de cuentas abiertas",current_accounts.getUserAccounts().size())), HttpStatus.BAD_REQUEST);
           }
          
           for(Account a: current_accounts.getUserAccounts()){
             if((a.getCurrency().compareTo(account.getCurrency()))==0){
-              return new ResponseEntity(new ResponseError(404,"You can't open another account of type "+account.getCurrency() +", already exist one."), HttpStatus.BAD_REQUEST);   
+              return new ResponseEntity(new ResponseError(404,"NO puedes abrir otra cuenta del tipo "+account.getCurrency() +",ya existe una actualmente."), HttpStatus.BAD_REQUEST);   
             }
 
           } /** Si sino tiene cuenta en pesos y la cuenta que quiere guardar en es pesos le da 500 */
@@ -144,13 +152,13 @@ public class AccountController {
        // busca la cuenta para ver si existe
       Account currentAccount= accountService.getAccount(accountId);
       if (currentAccount == null) {
-           return new ResponseEntity(new ResponseError(404, String.format("Account with id: %d not found", currentAccount.getId())), HttpStatus.NOT_FOUND);
+           return new ResponseEntity(new ResponseError(404, String.format("La cuenta con  id: %d no existe", currentAccount.getId())), HttpStatus.NOT_FOUND);
       }else{
         // se fija si el saldo es cero para poder darla de baja
        if(currentAccount.getAccount_balance().compareTo(new BigDecimal(0.00)) == 0 ){ 
            currentAccount = accountService.updateStatus(currentAccount,account.getStatus());
         }else{
-          return new ResponseEntity(new ResponseError(400, String.format("The account balance MUST be 0 (zero) to close the account")), HttpStatus.BAD_REQUEST);
+          return new ResponseEntity(new ResponseError(400, String.format("El balance de la cuenta debe ser 0 (zero) para darla de baja")), HttpStatus.BAD_REQUEST);
         }
        return currentAccount;
      }
@@ -161,7 +169,7 @@ public class AccountController {
   @ResponseBody
   public Object updateBalance(@PathVariable("id")long accountId,@RequestBody Amount amount){  
     if(amount.getAmount()==null){
-      return new ResponseEntity(new ResponseError(400, String.format("The amount is null")), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity(new ResponseError(400, String.format("El monto es nulo")), HttpStatus.BAD_REQUEST);
     }
     return accountService.updateBalance(accountId,amount.getAmount());
   }
